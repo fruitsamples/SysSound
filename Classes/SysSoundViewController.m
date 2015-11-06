@@ -1,10 +1,11 @@
 /*
     File: SysSoundViewController.m
-Abstract: This file does the work for SysSound--defining the sound
-to play and then playing it when a user taps either the System Sound or
-Alert Sound button. Tapping the Vibrate button invokes this file's 
-vibrate method.
- Version: 1.0
+Abstract: This file does the work for SysSound--defining the sound to play and then playing
+it when a user taps the System Sound button. Tapping the Alert Sound button invokes an alert as
+performed by the device; for example, on an iPhone, it plays the sound and also invokes 
+vibration. Tapping the Vibration button directly invokes vibration on devices that support it.
+
+ Version: 1.1
 
 Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
 Inc. ("Apple") in consideration of your agreement to the following
@@ -44,7 +45,7 @@ AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),
 STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 
-Copyright (C) 2008 Apple Inc. All Rights Reserved.
+Copyright (C) 2010 Apple Inc. All Rights Reserved.
 
 */
 
@@ -55,54 +56,58 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 @synthesize soundFileURLRef;
 @synthesize soundFileObject;
 
+
 - (void) viewDidLoad {
 
-	[super viewDidLoad];
+    [super viewDidLoad];
 
-	// Get the main bundle for the app
-	CFBundleRef mainBundle;
-	mainBundle = CFBundleGetMainBundle ();
-	
-	// Get the URL to the sound file to play
-	soundFileURLRef  =	CFBundleCopyResourceURL (
-								mainBundle,
-								CFSTR ("tap"),
-								CFSTR ("aif"),
-								NULL
-							);
+    // Provide a nice background for the app user interface.
+    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    
+    // Create the URL for the source audio file. The URLForResource:withExtension: method is
+    //    new in iOS 4.0.
+    NSURL *tapSound   = [[NSBundle mainBundle] URLForResource: @"tap"
+                                                withExtension: @"aif"];
 
-	// Create a system sound object representing the sound file
-	AudioServicesCreateSystemSoundID (
-		soundFileURLRef,
-		&soundFileObject
-	);
-	
+    // Store the URL as a CFURLRef instance
+    self.soundFileURLRef = (CFURLRef) [tapSound retain];
+
+    // Create a system sound object representing the sound file.
+    AudioServicesCreateSystemSoundID (
+    
+        soundFileURLRef,
+        &soundFileObject
+    );
 }
 
-// Respond to a tap on the System Sound button
-- (IBAction) playSystemSound {
 
-	AudioServicesPlaySystemSound (self.soundFileObject);
+// Respond to a tap on the System Sound button.
+- (IBAction) playSystemSound: (id) sender {
+
+    AudioServicesPlaySystemSound (soundFileObject);
 }
 
-// Respond to a tap on the Alert Sound button
-- (IBAction) playAlertSound {
 
-	AudioServicesPlayAlertSound (self.soundFileObject);
+// Respond to a tap on the Alert Sound button.
+- (IBAction) playAlertSound: (id) sender {
+
+    AudioServicesPlayAlertSound (soundFileObject);
 }
 
-// Respond to a tap on the Vibrate button
-- (IBAction) vibrate {
 
-	AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);
+// Respond to a tap on the Vibrate button. In the Simulator and on devices with no 
+//    vibration element, this method does nothing.
+- (IBAction) vibrate: (id) sender {
+
+    AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);
 }
 
 
 - (void) dealloc {
 
-	[super dealloc];
-	AudioServicesDisposeSystemSoundID (self.soundFileObject);
-	CFRelease (soundFileURLRef);
+    AudioServicesDisposeSystemSoundID (soundFileObject);
+    CFRelease (soundFileURLRef);
+    [super dealloc];
 }
 
 @end

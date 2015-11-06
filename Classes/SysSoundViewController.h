@@ -1,9 +1,11 @@
 /*
     File: SysSoundViewController.h
-Abstract: This file does the work for SysSound--defining the sound
-to play and then playing it when a user taps the Play button. Tapping 
-Vibrate button invokes this file's vibrate method.
- Version: 1.0
+Abstract: This file does the work for SysSound--defining the sound to play and then playing
+it when a user taps the System Sound button. Tapping the Alert Sound button invokes an alert as
+performed by the device; for example, on an iPhone, it plays the sound and also invokes 
+vibration. Tapping the Vibration button directly invokes vibration on devices that support it.
+
+ Version: 1.1
 
 Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
 Inc. ("Apple") in consideration of your agreement to the following
@@ -43,7 +45,7 @@ AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),
 STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 
-Copyright (C) 2008 Apple Inc. All Rights Reserved.
+Copyright (C) 2010 Apple Inc. All Rights Reserved.
 
 */
 
@@ -60,9 +62,9 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 @property (readwrite)	CFURLRef		soundFileURLRef;
 @property (readonly)	SystemSoundID	soundFileObject;
 
-- (IBAction) playSystemSound;
-- (IBAction) playAlertSound;
-- (IBAction) vibrate;
+- (IBAction) playSystemSound: (id) sender;
+- (IBAction) playAlertSound: (id) sender;
+- (IBAction) vibrate: (id) sender;
 
 @end
 

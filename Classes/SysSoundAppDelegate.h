@@ -1,7 +1,7 @@
 /*
     File: SysSoundAppDelegate.h
 Abstract: Application delegate class for SysSound.
- Version: 1.0
+ Version: 1.1
 
 Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
 Inc. ("Apple") in consideration of your agreement to the following
@@ -41,7 +41,7 @@ AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),
 STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 
-Copyright (C) 2008 Apple Inc. All Rights Reserved.
+Copyright (C) 2010 Apple Inc. All Rights Reserved.
 
 */
 
@@ -50,12 +50,13 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 @class SysSoundViewController;
 
 @interface SysSoundAppDelegate : NSObject <UIApplicationDelegate> {
-	IBOutlet UIWindow *window;
-	IBOutlet SysSoundViewController *viewController;
+
+    UIWindow               *window;
+    SysSoundViewController *viewController;
 }
 
-@property (nonatomic, retain) UIWindow *window;
-@property (nonatomic, retain) SysSoundViewController *viewController;
+@property (nonatomic, retain) IBOutlet UIWindow *window;
+@property (nonatomic, retain) IBOutlet SysSoundViewController *viewController;
 
 @end
 
